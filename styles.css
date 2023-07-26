@@ -13,6 +13,9 @@ h1 {
   margin-bottom: 20px;
   font-size: 2em;
 }
+ul {
+  list-style-type: none;
+}
 .search-form {
   display: flex;
   justify-content: center;
@@ -43,6 +46,9 @@ h1 {
 }
 
 .search-form .clear-btn {
+  margin-left: 10px;
+}
+.remove-btn {
   margin-left: 10px;
 }
 .container {

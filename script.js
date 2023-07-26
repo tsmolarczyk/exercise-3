@@ -1,23 +1,44 @@
 const API_KEY = "38484825-db02a94bcd5927f53e61f3630";
+let page = 1;
+let currentLastItem;
+let totalPageCount;
 
 const form = document.querySelector("#search-form");
+
 const searchValue = "";
+
+//observer
+const options = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 0.5
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      let i = 0;
+      i++;
+      page++;
+      searchByQuery(form.elements.query.value, page);
+    }
+  });
+}, options);
+//observer ends
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  const searchValue = form.elements.query.value;
-  console.log(searchValue);
-  searchByQuery(searchValue);
-});
+  page = 1;
+  document.querySelector(".container").innerHTML = "";
 
-console.log(basicLightbox);
+  const searchValue = form.elements.query.value;
+  searchByQuery(searchValue, page);
+});
 
 const createImageCards = (data) => {
   let ul = document.createElement("ul");
 
   for (let i = 0; i < data.hits.length; i++) {
-    console.log(data.hits[i]); // log each hit to console
-
     let li = document.createElement("li");
     let a = document.createElement("a");
     a.href = data.hits[i].largeImageURL;
@@ -26,7 +47,6 @@ const createImageCards = (data) => {
     img.src = data.hits[i].webformatURL;
     img.dataset.source = data.hits[i].largeImageURL;
     img.alt = data.hits[i].tags;
-    console.log(img, "img1");
 
     let instance;
     img.addEventListener("click", (event) => {
@@ -36,7 +56,6 @@ const createImageCards = (data) => {
       `);
 
       instance.show();
-      console.log(img, "img2");
     });
 
     a.appendChild(img);
@@ -47,16 +66,25 @@ const createImageCards = (data) => {
   return ul;
 };
 
-const searchByQuery = (query) => {
-  console.log("searching by:", query);
+const searchByQuery = (query, page = 1) => {
   fetch(
-    `https://pixabay.com/api/?key=${API_KEY}&q=${query}&image_type=photo&per_page=20`
+    `https://pixabay.com/api/?key=${API_KEY}&q=${query}&image_type=photo&per_page=5&page=${page}`
   )
     .then((response) => response.json())
     .then((data) => {
       console.log(data);
+      totalPageCount = Math.ceil(data.totalHits / 5);
       let imageList = createImageCards(data);
       document.querySelector(".container").appendChild(imageList);
+      const listItems = document.querySelectorAll("li");
+
+      if (currentLastItem) {
+        observer.unobserve(currentLastItem);
+      }
+      if (page < totalPageCount) {
+        currentLastItem = listItems[listItems.length - 1];
+        observer.observe(currentLastItem);
+      }
     })
     .catch((error) => console.error("Error:", error));
 };
@@ -66,6 +94,8 @@ const searchBtn = document
   .addEventListener("click", (event) => {
     event.preventDefault();
     const searchValue = form.elements.query.value;
+    document.querySelector(".container").innerHTML = "";
+
     searchByQuery(searchValue);
   });
 
@@ -74,5 +104,11 @@ const clearBtn = document
   .addEventListener("click", (event) => {
     event.preventDefault();
     form.elements.query.value = "";
-    searchByQuery(searchValue);
+  });
+
+const removeBtn = document
+  .querySelector(".remove-btn")
+  .addEventListener("click", (event) => {
+    event.preventDefault();
+    document.querySelector(".container").innerHTML = "";
   });
