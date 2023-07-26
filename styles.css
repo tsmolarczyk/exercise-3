@@ -16,6 +16,12 @@ h1 {
 ul {
   list-style-type: none;
 }
+.basicLightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
 .search-form {
   display: flex;
   justify-content: center;
