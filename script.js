@@ -10,10 +10,10 @@
 // `);
 
 // instance.show();
+const API_KEY = "38484825-db02a94bcd5927f53e61f3630";
 
-const form = document.querySelector("#search-form");};
+const form = document.querySelector("#search-form");
 const searchValue = "";
-
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -24,8 +24,13 @@ form.addEventListener("submit", (event) => {
 
 const searchByQuery = (query) => {
   console.log("searching by:", query);
-  //tutaj pojdzie zapytanie
-}
+  fetch(
+    `https://pixabay.com/api/?key=${API_KEY}&q=${query}&image_type=photo&per_page=20`
+  )
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error("Error:", error));
+};
 
 const searchBtn = document
   .querySelector(".search-btn")
@@ -39,6 +44,6 @@ const clearBtn = document
   .querySelector(".clear-btn")
   .addEventListener("click", (event) => {
     event.preventDefault();
-    searchValue.value = "";
+    form.elements.query.value = "";
     searchByQuery(searchValue);
   });
