@@ -88,7 +88,7 @@ const descBtn = document
       <h2>Przydatne linki</h2>
       <ul>
       <li><a class="link-docs" href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">- Event Listener</a></li>
-        <li><a class="link-docs" href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">- IntersectionObserver 1</a></li>
+        <li><a class="link-docs" href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">- IntersectionObserver</a></li>
         <li><a class="link-docs" href="https://basiclightbox.electerious.com/">- BasicLightBox Docs</a></li>
       </ul>
     </section>
