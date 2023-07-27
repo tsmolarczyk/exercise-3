@@ -2,6 +2,8 @@
 
 Simple project for searching and browsing pictures from API
 
+https://tsmolarczyk.github.io/exercise-2/
+
 ## Treśc zadania
 
 Zaprojektuj interfejs i skrypt wyszukiwania i przeglądania obrazów według słowa kluczowego.
