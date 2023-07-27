@@ -5,7 +5,8 @@ body {
   background-color: #f8f9fa;
   color: #333;
 }
-h1 {
+h1,
+h2 {
   text-align: center;
   background-color: #800020;
   color: white;
@@ -51,12 +52,29 @@ ul {
   background-color: #590015;
 }
 
-.search-form .clear-btn {
-  margin-left: 10px;
-}
-.remove-btn {
+.search-form .clear-btn,
+.remove-btn,
+.desc-btn {
   margin-left: 10px;
 }
 .container {
   height: 100%;
+}
+
+.desc-modal {
+  width: 80%;
+  max-width: 900px;
+  margin: auto;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.link-docs {
+  color: #333;
+  text-decoration: none;
+}
+
+.link-docs:hover {
+  color: #800020;
 }

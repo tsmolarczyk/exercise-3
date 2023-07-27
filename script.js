@@ -7,7 +7,6 @@ const form = document.querySelector("#search-form");
 
 const searchValue = "";
 
-//observer
 const options = {
   root: null,
   rootMargin: "0px",
@@ -15,7 +14,7 @@ const options = {
 };
 
 const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
+  entries.forEach(entry => {
     if (entry.isIntersecting) {
       let i = 0;
       i++;
@@ -24,9 +23,8 @@ const observer = new IntersectionObserver((entries, observer) => {
     }
   });
 }, options);
-//observer ends
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", event => {
   event.preventDefault();
   page = 1;
   document.querySelector(".container").innerHTML = "";
@@ -35,7 +33,7 @@ form.addEventListener("submit", (event) => {
   searchByQuery(searchValue, page);
 });
 
-const createImageCards = (data) => {
+const createImageCards = data => {
   let ul = document.createElement("ul");
 
   for (let i = 0; i < data.hits.length; i++) {
@@ -49,7 +47,7 @@ const createImageCards = (data) => {
     img.alt = data.hits[i].tags;
 
     let instance;
-    img.addEventListener("click", (event) => {
+    img.addEventListener("click", event => {
       event.preventDefault();
       instance = basicLightbox.create(`
         <img src="${img.dataset.source}" width="800" height="600">
@@ -61,19 +59,52 @@ const createImageCards = (data) => {
     a.appendChild(img);
     li.appendChild(a);
     ul.appendChild(li);
-    console.log(ul);
   }
   return ul;
 };
 
+let descModal;
+const descBtn = document
+  .querySelector(".desc-btn")
+  .addEventListener("click", event => {
+    event.preventDefault();
+
+    const descModal = basicLightbox.create(`
+    <div class="desc-modal" style="max-width: 900px;">
+    <section class="code-steps">
+      <h2>Etapy tworzenia kodu</h2>
+      <ol>
+        <li>Utworznie HTML</li>
+        <li>Nadanie odpowiednich klas poszczególnym elementom. </li>
+        <li>Stworzenie zmiennych script.js i wybranie elemntów z DOM, przez <em>querySelector</em></li>
+        <li>Przypisanie do buttonów funkcji pobierania, usuwania, czyszczenia oraz pokazania modala z info.</li>
+        <li>Dodanie klucza API do Pixabay oraz uzupełnienie funkcji odpowiednimi parametrami </li>
+        <li>Implementacja <em>BasicLightBox</em></li>
+      </ol>
+    </section>
+
+    <!-- Przydatne linki -->
+    <section id="useful-links">
+      <h2>Przydatne linki</h2>
+      <ul>
+      <li><a class="link-docs" href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener">- Event Listener</a></li>
+        <li><a class="link-docs" href="https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API">- IntersectionObserver 1</a></li>
+        <li><a class="link-docs" href="https://basiclightbox.electerious.com/">- BasicLightBox Docs</a></li>
+      </ul>
+    </section>
+</div>
+
+`);
+    descModal.show();
+  });
+
 const searchByQuery = (query, page = 1) => {
   fetch(
-    `https://pixabay.com/api/?key=${API_KEY}&q=${query}&image_type=photo&per_page=5&page=${page}`
+    `https://pixabay.com/api/?key=${API_KEY}&q=${query}&image_type=photo&per_page=20&page=${page}`
   )
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      totalPageCount = Math.ceil(data.totalHits / 5);
+    .then(response => response.json())
+    .then(data => {
+      totalPageCount = Math.ceil(data.totalHits / 20);
       let imageList = createImageCards(data);
       document.querySelector(".container").appendChild(imageList);
       const listItems = document.querySelectorAll("li");
@@ -86,12 +117,12 @@ const searchByQuery = (query, page = 1) => {
         observer.observe(currentLastItem);
       }
     })
-    .catch((error) => console.error("Error:", error));
+    .catch(error => console.error("Error:", error));
 };
 
 const searchBtn = document
   .querySelector(".search-btn")
-  .addEventListener("click", (event) => {
+  .addEventListener("click", event => {
     event.preventDefault();
     const searchValue = form.elements.query.value;
     document.querySelector(".container").innerHTML = "";
@@ -101,14 +132,14 @@ const searchBtn = document
 
 const clearBtn = document
   .querySelector(".clear-btn")
-  .addEventListener("click", (event) => {
+  .addEventListener("click", event => {
     event.preventDefault();
     form.elements.query.value = "";
   });
 
 const removeBtn = document
   .querySelector(".remove-btn")
-  .addEventListener("click", (event) => {
+  .addEventListener("click", event => {
     event.preventDefault();
     document.querySelector(".container").innerHTML = "";
   });
