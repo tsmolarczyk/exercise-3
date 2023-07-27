@@ -2,7 +2,7 @@
 
 Simple project for searching and browsing pictures from API
 
-https://tsmolarczyk.github.io/exercise-2/
+https://tsmolarczyk.github.io/exercise-3/
 
 ## Treśc zadania
 
